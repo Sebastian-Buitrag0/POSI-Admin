@@ -18,7 +18,7 @@ const sidebarOpen = ref(false)
       <!-- Overlay mobile -->
       <div
         v-if="sidebarOpen"
-        class="fixed inset-0 z-30 bg-slate-900 bg-opacity-50 md:hidden"
+        class="fixed inset-0 z-30 bg-black-50 md:hidden"
         @click="sidebarOpen = false"
       />
       <Sidebar :open="sidebarOpen" @close="sidebarOpen = false" />
