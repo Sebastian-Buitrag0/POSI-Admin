@@ -32,5 +32,7 @@ export const useNotificationStore = defineStore('notifications', () => {
     })
   }
 
-  return { toasts, add, remove, success, error, info, confirm }
+  const dismiss = remove
+
+  return { toasts, add, remove, dismiss, success, error, info, confirm }
 })

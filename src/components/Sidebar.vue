@@ -2,6 +2,9 @@
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
+defineProps<{ open: boolean }>()
+defineEmits<{ close: [] }>()
+
 const route = useRoute()
 const authStore = useAuthStore()
 
@@ -10,21 +13,34 @@ const isActive = (path: string) => {
   return route.path.startsWith(path)
 }
 
-const logout = () => {
-  authStore.logout()
-}
-
 const navItems = [
-  { path: '/', label: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-  { path: '/tenants', label: 'Tenants', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-  { path: '/users', label: 'Users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+  {
+    path: '/',
+    label: 'Dashboard',
+    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+  },
+  {
+    path: '/tenants',
+    label: 'Tenants',
+    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+  },
+  {
+    path: '/users',
+    label: 'Usuarios',
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+  },
 ]
 </script>
 
 <template>
-  <aside class="sidebar">
-    <div class="flex items-center h-16 px-6 border-b border-slate-800">
+  <aside :class="['sidebar', { open }]">
+    <div class="flex items-center justify-between h-16 px-6 border-b border-slate-800">
       <span class="text-lg font-bold text-white">POSI Admin</span>
+      <button class="md:hidden text-slate-400 hover:text-white" @click="$emit('close')">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
     <nav class="flex-1 py-4">
@@ -33,8 +49,9 @@ const navItems = [
           <router-link
             :to="item.path"
             :class="['sidebar-link', { active: isActive(item.path) }]"
+            @click="$emit('close')"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="item.icon" />
             </svg>
             {{ item.label }}
@@ -44,11 +61,11 @@ const navItems = [
     </nav>
 
     <div class="p-4 border-t border-slate-800">
-      <button class="btn btn-danger w-full" @click="logout">
+      <button class="btn btn-danger w-full" @click="authStore.logout()">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
         </svg>
-        Logout
+        Cerrar sesión
       </button>
     </div>
   </aside>

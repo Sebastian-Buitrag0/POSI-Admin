@@ -31,19 +31,19 @@ const handleEdit = (tenant: TenantSummary) => {
 }
 
 const handleDelete = async (id: string) => {
-  if (!await notify.confirm('Are you sure you want to delete this tenant?')) return
+  if (!await notify.confirm('¿Estás seguro de que quieres eliminar este tenant? Esta acción no se puede deshacer.')) return
   const result = await store.deleteTenant(id)
-  if (result.success) notify.success('Tenant deleted successfully')
-  else notify.error(result.message || 'Failed to delete tenant')
+  if (result.success) notify.success('Tenant eliminado correctamente')
+  else notify.error(result.message || 'Error al eliminar el tenant')
 }
 
 const handleCreateSubmit = async (formData: { name: string; adminEmail: string; adminFirstName: string; adminLastName: string; adminPassword: string }) => {
   const result = await store.createTenant(formData)
   if (result.success) {
     showCreateModal.value = false
-    notify.success('Tenant created successfully')
+    notify.success('Tenant creado correctamente')
   } else {
-    notify.error(result.message || 'Failed to create tenant')
+    notify.error(result.message || 'Error al crear el tenant')
   }
 }
 
@@ -51,9 +51,9 @@ const handleEditSubmit = async (formData: { id: string; plan: string; isActive: 
   const result = await store.updateTenant(formData.id, { plan: formData.plan, isActive: formData.isActive })
   if (result.success) {
     showEditModal.value = false
-    notify.success('Tenant updated successfully')
+    notify.success('Tenant actualizado correctamente')
   } else {
-    notify.error(result.message || 'Failed to update tenant')
+    notify.error(result.message || 'Error al actualizar el tenant')
   }
 }
 
@@ -65,14 +65,22 @@ const nextPage = () => { page.value++; store.fetchTenants(page.value, pageSize.v
   <div>
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold text-slate-800">Tenants</h2>
-      <button class="btn btn-primary" @click="showCreateModal = true">+ Create Tenant</button>
+      <button class="btn btn-primary" @click="showCreateModal = true">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Crear Tenant
+      </button>
     </div>
 
-    <div v-if="loadingTenants" class="flex items-center justify-center py-12">
+    <div v-if="loadingTenants" class="flex items-center justify-center py-16">
       <div class="spinner" />
     </div>
 
-    <div v-else-if="error" class="p-4 rounded bg-danger text-white mb-4">
+    <div v-else-if="error" class="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 flex items-center gap-3 mb-4">
+      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
       {{ error }}
     </div>
 

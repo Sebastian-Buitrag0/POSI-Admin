@@ -28,11 +28,23 @@ function onTokenRefreshed(newToken: string) {
   refreshSubscribers = []
 }
 
+function isAuthEndpoint(url?: string): boolean {
+  if (!url) return false
+  return url.includes('/superadmin/login') || url.includes('/auth/refresh')
+}
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const status = error.response?.status
+
+    // Don't intercept 401 on auth endpoints (login/refresh)
+    if (status === 401 && isAuthEndpoint(originalRequest?.url)) {
+      return Promise.reject(error)
+    }
+
+    if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
       if (isRefreshing) {
         return new Promise((resolve) => {
