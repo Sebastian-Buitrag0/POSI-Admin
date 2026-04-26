@@ -29,7 +29,7 @@ const salesChartData = computed(() =>
 
 function formatCurrency(val: number | undefined | null) {
   if (val == null) return '$0'
-  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val)
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val)
 }
 </script>
 

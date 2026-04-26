@@ -51,7 +51,7 @@ const navItems = [
             :class="['sidebar-link', { active: isActive(item.path) }]"
             @click="$emit('close')"
           >
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="item.icon" />
             </svg>
             {{ item.label }}

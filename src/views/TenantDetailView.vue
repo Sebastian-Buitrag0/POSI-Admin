@@ -49,7 +49,7 @@ const tenantUsers = computed(() => currentTenant.value?.users || [])
 
 function formatCurrency(val: number | undefined | null) {
   if (val == null) return '$0'
-  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val)
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val)
 }
 
 function formatDate(d: string) {

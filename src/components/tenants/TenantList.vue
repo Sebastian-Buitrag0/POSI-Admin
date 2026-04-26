@@ -53,7 +53,7 @@ function formatDate(d: string) {
             <td>{{ t.saleCount ?? 0 }}</td>
             <td class="text-slate-500">{{ formatDate(t.createdAt) }}</td>
             <td class="text-right" @click.stop>
-              <div class="flex items-center justify-end gap-1.5">
+              <div class="flex items-center justify-end gap-2">
                 <button class="btn btn-sm btn-secondary" @click="emit('view', t.id)">Ver</button>
                 <button class="btn btn-sm btn-primary" @click="emit('edit', t)">Editar</button>
                 <button class="btn btn-sm btn-danger" @click="emit('delete', t.id)">Eliminar</button>
